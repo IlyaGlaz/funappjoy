@@ -8,17 +8,17 @@ typealias IntUnaryOp = (Int) -> Int
  * higherAndThen(g, f).
  */
 fun main() {
-    println(curried<Int, Int, Int>()(square)(triple)(2))
+    println(higherAndThen<Int, Int, Int>()(square)(triple)(2))
 }
 
 val square: IntUnaryOp = { it * it }
 val triple: IntUnaryOp = { it * 3 }
 
 // Решение
-fun <T, U, V> curried(): ((U) -> V) -> ((T) -> U) -> (T) -> V =
-    { f ->
-        { g ->
-            { x -> f(g(x)) }
+fun <T, U, V> higherAndThen(): ((T) -> U) -> ((U) -> V) -> (T) -> V =
+    { f: (T) -> U ->
+        { g: (U) -> V ->
+            { x: T -> g(f(x)) }
         }
     }
 
