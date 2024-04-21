@@ -19,4 +19,3 @@ fun <T, U, V> higherCompose(): ((U) -> V) -> ((T) -> U) -> (T) -> V =
             { x -> f(g(x)) }
         }
     }
-

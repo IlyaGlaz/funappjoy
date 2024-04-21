@@ -21,4 +21,3 @@ fun <T, U, V> higherAndThen(): ((T) -> U) -> ((U) -> V) -> (T) -> V =
             { x: T -> g(f(x)) }
         }
     }
-

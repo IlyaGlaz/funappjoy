@@ -14,5 +14,3 @@ fun <T, U, V> swapArgs(f: (T) -> (U) -> V): (U) -> (T) -> V =
     { a: U ->
         { b: T -> f(b)(a) }
     }
-
-
