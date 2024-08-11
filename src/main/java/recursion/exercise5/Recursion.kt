@@ -1,16 +1,12 @@
 package recursion.exercise5
 
-import recursion.exercise4.head
-import recursion.exercise4.makeString
-import recursion.exercise4.tail
-
 /**
  * Напишите обобщенную версию функции с хвостовой рекурсией, которую можно использовать в sum, string и makeString.
  * Дайте этой функции имя foldLeft, затем перепишите sum, string и makeString, задействовав эту
  * новую функцию.
  */
 fun main() {
-    println(makeString(listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), "-"))
+    println(makeString(listOf("Hola", "amigo", "como", "estas"), "__"))
 }
 
 fun <T> List<T>.head(): T =
@@ -25,10 +21,21 @@ fun <T> List<T>.tail(): List<T> =
     else
         this.drop(1)
 
-fun sum(list: List<Int>): Int =
-    if (list.isEmpty())
-        0
-    else
-        list.head() + sum(list.tail())
-
 //Решение
+fun <T, U> foldLeft(list: List<T>, init: U, block: (U, T) -> U): U {
+    tailrec fun foldLeft(list: List<T>, acc: U): U {
+        return if (list.isEmpty())
+            acc
+        else
+            foldLeft(list.tail(), block(acc, list.head()))
+
+    }
+    return foldLeft(list, init)
+}
+
+fun sum(list: List<Int>) = foldLeft(list, 0, Int::plus)
+
+fun string(list: List<Char>) = foldLeft(list, "", String::plus)
+
+fun <T> makeString(list: List<T>, delim: String) =
+    foldLeft(list, "") { acc, elem -> if (acc.isEmpty()) "$elem" else "$acc$delim$elem" }
