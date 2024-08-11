@@ -1,6 +1,5 @@
 plugins {
-    id("java")
-    kotlin("jvm")
+    id("org.jetbrains.kotlin.jvm") version "1.9.24"
 }
 
 group = "ru.iglaz"
@@ -11,14 +10,9 @@ repositories {
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    implementation(kotlin("stdlib-jdk8"))
+    testImplementation("io.kotlintest:kotlintest-runner-junit5:3.4.2")
 }
 
 tasks.test {
     useJUnitPlatform()
-}
-kotlin {
-    jvmToolchain(17)
 }

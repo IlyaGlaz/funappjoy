@@ -12,7 +12,7 @@ fun main() {
 }
 
 val square: IntUnaryOp = { it * it }
-val triple: IntUnaryOp = { it * 3 }
+val triple: (Int) -> Int = { it * 3 }
 
 // Решение
 // Вариант с композицией функций
