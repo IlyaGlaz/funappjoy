@@ -7,10 +7,11 @@ import recursion.exercise5.foldLeft
  * добавляющую элемент в конец списка.
  */
 fun main() {
-    println(reverse(listOf(1, 2, 5, 10, 50, 150, 300, 600)))
+    println(reverse(listOf(2, 4, 8, 16)))
 }
 
 //Решение
-fun <T> prepend(list: List<T>, elem: T): List<T> = listOf(elem) + list
+fun <T> prepend(list: List<T>, elem: T): List<T> =
+    foldLeft(list, listOf(elem)) { lst, elm -> lst + elm }
 
 fun <T> reverse(list: List<T>) = foldLeft(list, listOf(), ::prepend)
