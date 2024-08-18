@@ -8,6 +8,7 @@ class FunctionsTest: StringSpec() {
     init {
         "add" {
             forAll { x: Int, y: Int ->
+                println("$x $y")
                 add(x)(y) == x + y
             }
         }
