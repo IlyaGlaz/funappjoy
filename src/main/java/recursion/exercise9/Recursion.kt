@@ -10,7 +10,6 @@ fun main() {
     println(range(20, 41))
 }
 
-
 //Решение
 fun range(start: Int, end: Int): List<Int> {
     val result: MutableList<Int> = mutableListOf()
