@@ -1,23 +1,25 @@
-package lists.exercise5
+package lists.exercise6
+
+import lists.exercise6.List.Cons
+import lists.exercise6.List.Nil
 
 /**
- * Напишите функцию удаления последнего элемента из списка. Функция
- * должна возвращать новый список. Реализуйте ее как функцию экземпляра со следующей сигнатурой:
- * fun init(): List<A>
+ * Напишите функцию, вычисляющую сумму элементов постоянного списка целых чисел, использовав рекурсивный подход.
  */
 fun main() {
-    println(List(2, 4, 6, 8).init())
+    println(sum(List(2, 4, 6, 8)))
+    println(List(1, 2).concat(List(3, 4)))
 }
 
 //Решение
-sealed class List<A> {
+sealed class List<out A> {
     abstract fun isEmpty(): Boolean
 
     abstract fun init(): List<A>
 
-    fun cons(a: A): List<A> = Cons(a, this)
+    fun cons(a: @UnsafeVariance A): List<A> = Cons(a, this)
 
-    fun setHead(a: A): List<A> =
+    fun setHead(a: @UnsafeVariance A): List<A> =
         when (this) {
             Nil -> throw IllegalStateException("setHead called on an empty list")
             is Cons -> Cons(a, this.tail)
@@ -27,11 +29,11 @@ sealed class List<A> {
 
     fun dropWhile(p: (A) -> Boolean): List<A> = dropWhile(this, p)
 
-    fun concat(list: List<A>): List<A> = concat(this, list)
+    fun concat(list: List<@UnsafeVariance A>): List<A> = concat(this, list)
 
     fun reverse(): List<A> = reverse(invoke(), this)
 
-    private object Nil : List<Nothing>() {
+    object Nil : List<Nothing>() {
         override fun init(): List<Nothing> = throw IllegalArgumentException()
 
         override fun isEmpty() = true
@@ -39,7 +41,7 @@ sealed class List<A> {
         override fun toString(): String = "[NIL]"
     }
 
-    private class Cons<A>(val head: A, val tail: List<A>) : List<A>() {
+    class Cons<out A>(val head: A, val tail: List<A>) : List<A>() {
         override fun init(): List<A> = reverse().drop(1).reverse()
 
         override fun isEmpty() = false
@@ -79,4 +81,9 @@ sealed class List<A> {
         operator fun <A> invoke(vararg az: A): List<A> =
             az.foldRight(Nil as List<A>) { a: A, list: List<A> -> Cons(a, list) }
     }
+}
+
+fun sum(list: List<Int>): Int = when (list) {
+    Nil -> 0
+    is Cons -> sum(list.tail) + list.head
 }
