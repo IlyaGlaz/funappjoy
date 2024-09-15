@@ -97,11 +97,7 @@ sealed class List<out A> {
     }
 }
 
-fun <A, B> foldRight(
-    list: List<A>,
-    identity: B,
-    f: (A) -> (B) -> B
-): B =
+fun <A, B> foldRight(list: List<A>, identity: B, f: (A) -> (B) -> B): B =
     when (list) {
         Nil -> identity
         is Cons -> f(list.head)(foldRight(list.tail, identity, f))
